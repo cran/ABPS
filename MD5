@@ -1,0 +1,15 @@
+3cb69a2aba45009cf187f8e009c77580 *DESCRIPTION
+483ec8143e3e536932b55785f1b7d09d *NAMESPACE
+5dd7433dadb3903fe3b2d664f7746626 *R/ABPS.R
+3ab2a471b824a1850895f193da76abb3 *R/OFFscore.R
+da576930eff648a1750dba1543e1ce99 *R/data.R
+e41182652cc379132e11b1e07a138675 *R/sysdata.rda
+ec645013f5fe36710f6dd846aff7d750 *data/bloodcontrol.RData
+643d2fb7963f2f53b144adc5dad0b3f9 *data/blooddoping.RData
+efba514a385d9d398f1881c8898ab8ed *man/ABPS.Rd
+0001305a05767937c906bd936730027c *man/OFFscore.Rd
+5a838d600e2497655aa7c14128676415 *man/bloodcontrol.Rd
+e7b77d2e7fc7a58f5336baea0a1417b8 *man/blooddoping.Rd
+abf25e8051d15fbe1085a2a751a6a417 *tests/testthat.R
+95fa3930fde91c2025c4b329be6f1863 *tests/testthat/test_ABPS.R
+19797e2f635f7711895da24a6640ec2d *tests/testthat/test_OFFscore.R
