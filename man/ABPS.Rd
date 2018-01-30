@@ -13,35 +13,33 @@ haematological variables, either with the same names as the
 parameters below, or (not recommended) without names but in the
 same order as the parameters.}
 
-\item{HCT}{the haematocrit level (in \%)}
+\item{HCT}{haematocrit level [\%]}
 
-\item{HGB}{the haemoglobin level (in [g/l])}
+\item{HGB}{haemoglobin level [g/dL]}
 
-\item{MCH}{the mean corpuscular haemoglobin (in [pg])}
+\item{MCH}{mean corpuscular haemoglobin [pg]}
 
-\item{MCHC}{the mean corpuscular haemoglobin concentration (in
-[g/dL])}
+\item{MCHC}{mean corpuscular haemoglobin concentration [g/dL]}
 
-\item{MCV}{Mean corpuscular volume (in [fL])}
+\item{MCV}{mean corpuscular volume [fL]}
 
-\item{RBC}{the red blood cell count (in [10^6/mu l])}
+\item{RBC}{red blood cell count [10^6/uL]}
 
-\item{RETP}{the reticulocytes percent (in \%)}
+\item{RETP}{reticulocytes percent [\%]}
 }
 \value{
 a vector containing the ABPS score(s). Scores between 0 and
-    1 indicate a possible suspicion of doping, while scores above 1
-    indicate that the likelihood of doping is higher than the
-    likelihood of no-doping.
+    1 indicate a possible suspicion of doping; a score above 1 should
+    only be found in 1 in 1000 male athletes.
 }
 \description{
 The \code{ABPS} function computes the Abnormal Blood Profile Score
 from seven haematological markers. Higher values of this composite
-score are associated with a higher likelihood of blood doping;
+score are associated with a higher likelihood of blood doping.
 }
 \details{
 The ABPS uses the seven haematological variables (HCT, HGB, MCH,
-MCHC, MCV, RBC, RET\%) in order to obtain a combined score. This
+MCHC, MCV, RBC, RETP) in order to obtain a combined score. This
 score is more sensitive to doping than the individual markers, and
 allows the detection of several types of blood doping using a
 single score.
@@ -61,6 +59,10 @@ of doping, it has been used as corroborative evidence (see e.g.
 }
 \section{Note}{
 
+
+The values for the markers can be specified using either a data
+frame containing (at least) the 7 haematological variables, or
+using seven named parameters, but not both at the same time.
 
 The calculation of the ABPS depends on two sets of parameters, for
 the two machine learning techniques (naive Bayesian classifier and

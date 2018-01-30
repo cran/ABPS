@@ -9,21 +9,22 @@ haematological variables):
 \describe{
   \item{date}{the date of test}
   \item{HCT}{haematocrit [\%]}
-  \item{HGB}{haemoglobin [g/dl]}
+  \item{HGB}{haemoglobin [g/dL]}
   \item{MCH}{mean corpuscular haemoglobin [pg]}
-  \item{MCHC}{mean corpuscular haemoglobin concentration [g/dl]}
-  \item{MCV}{mean corpuscular volume [fl]}
-  \item{RBC}{red blood cell count [10^6/ul]}
-  \item{RETC}{reticulocyte count [10^6/ul]}
+  \item{MCHC}{mean corpuscular haemoglobin concentration [g/dL]}
+  \item{MCV}{mean corpuscular volume [fL]}
+  \item{RBC}{red blood cell count [10^6/uL]}
+  \item{RETC}{reticulocyte count [10^6/uL]}
   \item{RETP}{reticulocyte percentage [\%]}
-  \item{OFFscore}{Off-score}
-  \item{ABPS}{Abnormal blood profile score}
+  \item{OFFscore}{OFF-score}
+  \item{ABPS}{Abnormal Blood Profile Score}
 }
 
 In November 2012, the athlete was convicted of doping by the Court
 of arbitration for Sport, the evidence showing at least two occurences
 of doping, in summer 2009 (shortly before the test of 2 July 2009) and
-in June 2011, likely using an agent such as erythropoietin (EPO).
+in June 2011, likely using an agent such as recombinant erythropoietin
+(rhEPO).
 
 Doping is indicated in particular by high haemoglobin values associated
 with very low reticulocyte \% and high OFF scores (a combination of these
@@ -36,8 +37,8 @@ blooddoping
 }
 \description{
 A dataset containing the result of the analysis of 13 blood samples,
-taken over 5 years, of a female athlete who was convicted of doping
-on the basis of the Athlete Biological Passport.
+taken over a period of 5 years, of a female athlete who was convicted
+of doping on the basis of the Athlete Biological Passport.
 }
 \section{Note}{
  The data tables published in the original source
@@ -48,9 +49,9 @@ on the basis of the Athlete Biological Passport.
     details of the corrections that were applied.
 
 The ABPS values provided are very close (within <2\%) to those
-obtained using the \code{ABPS} function, but they were likely
-calculated using different (older) version of the ABPS code, which
-explains some small changes.
+obtained using the \code{ABPS} function, but some of them were likely
+calculated using different (older) versions of the ABPS code, which
+may explain some of these differences.
 }
 
 \keyword{datasets}

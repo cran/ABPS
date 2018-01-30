@@ -3,25 +3,24 @@
 \docType{data}
 \name{bloodcontrol}
 \alias{bloodcontrol}
-\title{Blood samples from different athletes.}
+\title{Blood samples from different individuals.}
 \format{A data frame with 13 rows and 12 haematological variables:
 \describe{
-  \item{HCT}{Haematocrit [\%]}
-  \item{HGB}{Haemoglobin [g/dl]}
-  \item{IRF}{Immature reticulocyte fraction [\%]}
-  \item{MCH}{Mean corpuscular haemoglobin pg}
-  \item{MCHC}{Mean corpuscular haemoglobin concentration g/dl}
-  \item{MCV}{Mean corpuscular volume [fL]}
-  \item{RBC}{Eed blood cell count 10^6/ul}
-  \item{RDW.SD}{Red blood cell distribution width [fL]}
-  \item{RETC}{Reticulocyte count 10^6/ul}
-  \item{RETP}{Reticulocyte percentage \%}
-  \item{OFFscore}{Off-score}
-  \item{ABPS}{Abnormal blood profile score}
+  \item{HCT}{haematocrit [\%]}
+  \item{HGB}{haemoglobin [g/dL]}
+  \item{IRF}{immature reticulocyte fraction [\%]}
+  \item{MCH}{mean corpuscular haemoglobin [pg]}
+  \item{MCHC}{mean corpuscular haemoglobin concentration [g/dL]}
+  \item{MCV}{mean corpuscular volume [fL]}
+  \item{RBC}{red blood cell count [10^6/uL]}
+  \item{RDW.SD}{red blood cell distribution width [fL]}
+  \item{RETC}{reticulocyte count [10^6/uL]}
+  \item{RETP}{reticulocyte percentage [\%]}
+  \item{OFFscore}{OFF-score}
+  \item{ABPS}{Abnormal Blood Profile Score}
 }
 
-Based on the values, there is no indication that these athletes
-were doped.}
+These samples are assumed to represent normal population.}
 \source{
 Swiss Laboratory for Doping Analyses (LAD), with some calculations
 performed by the World Anti-Doping Agency (WADA).
@@ -31,12 +30,11 @@ bloodcontrol
 }
 \description{
 A dataset containing the result of the analysis of 13 blood samples
-from different athletes.
+from different individuals.
 }
 \section{Note}{
- One of the rows does not actually belong to an
-    athlete, but to one of the authors of this package, who promises
-    that he was not doped.
+ One of the rows actually belongs to one of the
+    authors of this package, who promises that he was not doped.
 }
 
 \keyword{datasets}

@@ -1,0 +1,15 @@
+version 0.2 30 January 2018
+
+* OFFscore function now assumes that haemoglobin level (HGB) is
+  specified in [g/dL], instead of [g/L] previously. This makes the
+  package more coherent. Examples and documentation were modified
+  accordingly.
+* OFFscore now accepts a data frame as argument
+* ABPS and OFFscore now both check that arguments are not passed
+  simultaneously as a data frame and as separate parameters
+* Update of documentation (correction of some incoherencies between
+  pages, and general improvements)
+
+version 0.1 19 December 2017
+
+* First released version

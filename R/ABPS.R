@@ -2,30 +2,28 @@
 #'
 #' The \code{ABPS} function computes the Abnormal Blood Profile Score
 #' from seven haematological markers. Higher values of this composite
-#' score are associated with a higher likelihood of blood doping;
+#' score are associated with a higher likelihood of blood doping.
 #'
 #' @param haemdata a vector or data frame containing (at least) the 7
 #'     haematological variables, either with the same names as the
 #'     parameters below, or (not recommended) without names but in the
 #'     same order as the parameters.
-#' @param HCT the haematocrit level (in \%)
-#' @param HGB the haemoglobin level (in [g/l])
-#' @param MCH the mean corpuscular haemoglobin (in [pg])
-#' @param MCHC the mean corpuscular haemoglobin concentration (in
-#'     [g/dL])
-#' @param MCV Mean corpuscular volume (in [fL])
-#' @param RBC the red blood cell count (in [10^6/mu l])
-#' @param RETP the reticulocytes percent (in \%)
+#' @param HCT haematocrit level [\%]
+#' @param HGB haemoglobin level [g/dL]
+#' @param MCH mean corpuscular haemoglobin [pg]
+#' @param MCHC mean corpuscular haemoglobin concentration [g/dL]
+#' @param MCV mean corpuscular volume [fL]
+#' @param RBC red blood cell count [10^6/uL]
+#' @param RETP reticulocytes percent [\%]
 #' 
 #' @return a vector containing the ABPS score(s). Scores between 0 and
-#'     1 indicate a possible suspicion of doping, while scores above 1
-#'     indicate that the likelihood of doping is higher than the
-#'     likelihood of no-doping.
+#'     1 indicate a possible suspicion of doping; a score above 1 should
+#'     only be found in 1 in 1000 male athletes.
 #' 
 #' @details
 #'
 #' The ABPS uses the seven haematological variables (HCT, HGB, MCH,
-#' MCHC, MCV, RBC, RET\%) in order to obtain a combined score. This
+#' MCHC, MCV, RBC, RETP) in order to obtain a combined score. This
 #' score is more sensitive to doping than the individual markers, and
 #' allows the detection of several types of blood doping using a
 #' single score.
@@ -44,6 +42,10 @@
 #' \url{https://jurisprudence.tas-cas.org/Shared\%20Documents/2773.pdf})
 #'
 #' @section Note:
+#'
+#' The values for the markers can be specified using either a data
+#' frame containing (at least) the 7 haematological variables, or
+#' using seven named parameters, but not both at the same time.
 #'
 #' The calculation of the ABPS depends on two sets of parameters, for
 #' the two machine learning techniques (naive Bayesian classifier and
@@ -76,13 +78,17 @@
 ABPS <- function(haemdata=NULL, HCT=NULL, HGB=NULL, MCH=NULL, MCHC=NULL, MCV=NULL,
                  RBC=NULL, RETP=NULL) {
 
-  haemnames <-  c("RETP","HGB","HCT","RBC","MCV","MCH","MCHC")
+  haemnames <- c("RETP","HGB","HCT","RBC","MCV","MCH","MCHC")
   
   if (is.null(haemdata)) {
     haemdata <- cbind(HCT, HGB, MCH, MCHC, MCV, RBC, RETP)
       
     if (is.null(haemdata))
        stop("ABPS requires either a data frame or 7 variables.") 
+  } else {
+      # Make sure that the data was not specified in two different ways
+      if (!is.null(cbind(HCT, HGB, MCH, MCHC, MCV, RBC, RETP)))
+          stop("ABPS requires either a data frame or separate variables, but not both.")
   }
 
   # Make sure the data is in a data frame, even if we have only one
@@ -107,9 +113,7 @@ ABPS <- function(haemdata=NULL, HCT=NULL, HGB=NULL, MCH=NULL, MCHC=NULL, MCV=NUL
   haemdata <- t( apply( haemdata, MARGIN=1, FUN=pmin, bayespar_7$mima[,2]) )
     
   # Computation of Bayes score
-  # What we are doing on a single data point:
-  #  index <- apply(haemvar > bayespar_7$xabs, MARGIN=1, function(x){ max(which(x)) })
-
+  # The first "apply" executes the code over all observations
   index <- apply(haemdata, MARGIN=1,
                  FUN=function(x) {
                      apply(x>bayespar_7$xabs, MARGIN=1,
@@ -119,9 +123,6 @@ ABPS <- function(haemdata=NULL, HCT=NULL, HGB=NULL, MCH=NULL, MCHC=NULL, MCV=NUL
 
   # For values that were missing
   index[! is.finite(index)] <- NA
-
-  #probneg <- diag(bayespar_7$yabsnegt[,index])
-  #probpos <- diag(bayespar_7$yabspos[,index])
 
   probneg <- apply( index, MARGIN=2, FUN=function(x) { diag(bayespar_7$yabsnegt[,x]) } )
   probpos <- apply( index, MARGIN=2, FUN=function(x) { diag(bayespar_7$yabspos[,x]) } )
