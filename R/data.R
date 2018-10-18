@@ -40,7 +40,7 @@
 #' The ABPS values provided are very close (within <2\%) to those
 #' obtained using the \code{ABPS} function, but some of them were likely
 #' calculated using different (older) versions of the ABPS code, which
-#' may explain some of these differences. 
+#' may explain some of these differences.
 #' 
 #' @source \url{https://jurisprudence.tas-cas.org/Shared\%20Documents/2773.pdf}
 "blooddoping"

@@ -1,3 +1,9 @@
+version 0.3 18 October 2018
+* ABPS now prints warnings when the parameters are outside the range
+  used by the algorithm
+* When an unnamed vector was used with the ABPS function, the assumed
+  order was incorrect
+
 version 0.2 30 January 2018
 
 * OFFscore function now assumes that haemoglobin level (HGB) is

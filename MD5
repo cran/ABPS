@@ -1,9 +1,9 @@
-f237755ec9d5f2ed700c3f66f9f62437 *DESCRIPTION
+0f90d0de26c39d06d709c6c111dd784f *DESCRIPTION
 483ec8143e3e536932b55785f1b7d09d *NAMESPACE
-32dd32837261c9bbddef374c93f15173 *NEWS
-824198ddffc7e7801c94dd79624dc966 *R/ABPS.R
+a1c2867b096ccc10339da999287ec45d *NEWS
+6becd25514eb9d3eabda473eb3070f80 *R/ABPS.R
 2571d383eebba35221b3534a949f90da *R/OFFscore.R
-ded0168fa72b8ed12dece254975123c6 *R/data.R
+03718959d14d4352af3d9da62d9aa0f9 *R/data.R
 e41182652cc379132e11b1e07a138675 *R/sysdata.rda
 ec645013f5fe36710f6dd846aff7d750 *data/bloodcontrol.RData
 643d2fb7963f2f53b144adc5dad0b3f9 *data/blooddoping.RData
@@ -12,5 +12,5 @@ d7b563b5b133a9091955cfcef75162b9 *man/ABPS.Rd
 4a8cd923ef1412e0a15e137c5b0d225e *man/bloodcontrol.Rd
 3cc600dfdbc52e6eea2939b26ca30824 *man/blooddoping.Rd
 abf25e8051d15fbe1085a2a751a6a417 *tests/testthat.R
-95fa3930fde91c2025c4b329be6f1863 *tests/testthat/test_ABPS.R
+e20eade2126080d34370206eebb4e3b4 *tests/testthat/test_ABPS.R
 7f75759e8ebb08798e9ce89263a75077 *tests/testthat/test_OFFscore.R

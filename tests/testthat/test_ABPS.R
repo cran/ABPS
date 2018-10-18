@@ -1,7 +1,10 @@
 library(ABPS)
 context("ABPS function")
 
-testvector <- c(0.48, 14.6, 43.2, 4.69, 92.1, 31.1, 33.8)
+# testvector contains the 7 parameters, in the same order as the
+# functions expects them (HCT, HGB, MCH, MCHC, MCV, RBC, RETP),
+# but without names
+testvector <- c(43.2, 14.6, 31.1, 33.8, 92.1, 4.69, 0.48)
 expresult <- -0.5398784
 
 # ABPS is used with two decimals, and our test data does not provide
@@ -9,14 +12,19 @@ expresult <- -0.5398784
 abpstol <- 0.01
 
 test_that("ABPS works on an unnamed vector", {
-  expect_equal( ABPS( testvector), expresult, tolerance=abpstol)
+  expect_equal(ABPS(testvector), expresult, tolerance=abpstol)
+})
+
+test_that("ABPS works when parameters are specified individually", {
+  expect_equal(ABPS(HCT=43.2, HGB=14.6, MCH=31.1, MCHC=33.8,
+                    MCV=92.1, RBC=4.69, RETP=0.48),
+		    expresult, tolerance=abpstol)
 })
 
 testvectors <- rbind(testvector, testvector)
 expresults <- c(expresult, expresult)
-
 test_that("ABPS works on an unnamed matrix", {
-  expect_equal( ABPS( testvectors), expresults, tolerance=abpstol)
+  expect_equal(ABPS( testvectors), expresults, tolerance=abpstol)
 })
 
 # The "bloodcontrol" dataset already provides ABPS value
@@ -50,4 +58,9 @@ test_that("Expected ABPS results on the blood doping data", {
                  tolerance=0.1)
 })
 
-
+# If some parameters are outside the range used by ABPS, a warning should
+# be printed. Here, we test if HGB is above the range (12.9-18.2.
+test_that("ABPS throws a warning when HGB is above the known range.", {
+  expect_warning(ABPS(HCT=43.2, HGB=18.21, MCH=31.1, MCHC=33.8,
+                      MCV=92.1, RBC=4.69, RETP=0.48))
+})

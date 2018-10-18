@@ -52,7 +52,9 @@
 #' Support Vector Machine), which are provided in the package.
 #' 
 #' Each parameter must be in a prespecified range; parameters outside
-#' this range are constrained to the min (respectively max) values.
+#' this range are constrained to the min (respectively max) values and
+#' a warning is printed. The limits are available in the
+#' variable \code{ABPS:::bayespar_7$mima}
 #'
 #' Note that several versions of the ABPS were developed (including
 #' several different combinations of parameters). The version provided
@@ -78,6 +80,8 @@
 ABPS <- function(haemdata=NULL, HCT=NULL, HGB=NULL, MCH=NULL, MCHC=NULL, MCV=NULL,
                  RBC=NULL, RETP=NULL) {
 
+  # This is the order of names used in the objects containing
+  # the model parameter
   haemnames <- c("RETP","HGB","HCT","RBC","MCV","MCH","MCHC")
   
   if (is.null(haemdata)) {
@@ -97,8 +101,10 @@ ABPS <- function(haemdata=NULL, HCT=NULL, HGB=NULL, MCH=NULL, MCHC=NULL, MCV=NUL
     haemdata <- t(haemdata) 
   }
 
+  # We assume that the variables have been specified in the same order as
+  # the function call (but this way of passing variables is not recommended)
   if (is.null(colnames(haemdata)) && ncol(haemdata)==7)
-    colnames(haemdata) <- haemnames
+    colnames(haemdata) <- c("HCT", "HGB", "MCH", "MCHC", "MCV", "RBC", "RETP")
 
   if (any(is.na(match(haemnames, colnames(haemdata)))))
     stop("ABPS requires 7 haematological variables.")
@@ -108,12 +114,27 @@ ABPS <- function(haemdata=NULL, HCT=NULL, HGB=NULL, MCH=NULL, MCHC=NULL, MCV=NUL
   haemdata <- haemdata[, haemnames, drop=FALSE]
     
   # Values that are outside the bounds used by the scoring algorithm
-  # get assigned the minimum (or maximum) value instead.
+  # (which depend on the values of the original dataset used to fit the
+  # algorithm) get assigned the minimum (or maximum) value instead.
+  haemdata.orig <- haemdata
   haemdata <- t( apply( haemdata, MARGIN=1, FUN=pmax, bayespar_7$mima[,1]) )
   haemdata <- t( apply( haemdata, MARGIN=1, FUN=pmin, bayespar_7$mima[,2]) )
-    
+
+  # If any parameter had to be adjusted, print a warning
+  differences <- (haemdata.orig != haemdata)
+  differences[is.na(differences)] <- FALSE
+  if (any(differences)) {
+    param_differences <- apply( differences, MARGIN=2, FUN=any )
+    warning("some values were outside the bounds used by ABPS and were corrected: ",
+            paste(haemnames[param_differences], collapse="," ) )
+  }
+
   # Computation of Bayes score
+  # bayespar_7 contains the parameters for the naive Bayesian classifier
   # The first "apply" executes the code over all observations
+  # bayespar_7$xabs contains a split of the range of each parameter into
+  # 500 steps. For each parameter, we find the bin that contains the actual
+  # value
   index <- apply(haemdata, MARGIN=1,
                  FUN=function(x) {
                      apply(x>bayespar_7$xabs, MARGIN=1,
@@ -121,16 +142,25 @@ ABPS <- function(haemdata=NULL, HCT=NULL, HGB=NULL, MCH=NULL, MCHC=NULL, MCV=NUL
                      }
                 )
 
-  # For values that were missing
+  # Set the index to NA when a value was missing
   index[! is.finite(index)] <- NA
 
+  # Using the index, we can find the positive and negative probabilites for
+  # each parameter
   probneg <- apply( index, MARGIN=2, FUN=function(x) { diag(bayespar_7$yabsnegt[,x]) } )
   probpos <- apply( index, MARGIN=2, FUN=function(x) { diag(bayespar_7$yabspos[,x]) } )
  
   # Classification: Naive Bayes score to compare posterior probability of
   # being positive and posterior probability of being negative
+  # For a given observation, the probabilities for the different parameters
+  # are multiplied.
   bayesscore <- log( apply(probpos, MARGIN=2, FUN=prod) / apply(probneg, MARGIN=2, FUN=prod) )
-    
+
+  # This test is present in the original matlab code for ABPS, and was kept in
+  # the R code for consistency.
+  # However, based on the values obtained for all the possible combinations of
+  # min/max values for all the parameters, the warning should actually never
+  # be printed.
   if (any(stats::na.omit(bayesscore>100)))
     warning("ABPS: Bayes score very large, results may be inaccurate.")
     
@@ -146,7 +176,8 @@ ABPS <- function(haemdata=NULL, HCT=NULL, HGB=NULL, MCH=NULL, MCHC=NULL, MCV=NUL
   svmscore <- t(Kmat) %*% svmpar_7$w + as.numeric(svmpar_7$bsvm)
   svmscore <- t(svmscore)
     
-  # Ensemble averaging of the two scores
+  # Ensemble averaging of the two scores. The values were determined at the
+  # time the models were fitted.
   score <- ( 6*bayesscore/as.numeric(bayespar_7$stdb) + svmscore/as.numeric(svmpar_7$stds) )/4.75
   score <- as.vector(score)
     
